@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import Register from './components/register';
+import Login from './components/login';
+import Dashboard from './components/dashboard';
+import { AuthContext } from './context/authContext';
 
 function App() {
+  const { user } = useContext(AuthContext);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <h3 className='text-center'>Integrate API</h3>
+      <Switch>
+        <Route path='/dashboard' component={Dashboard} />
+        <Route path='/login' component={Login} />
+        {user && <Redirect from='/' to='/dashboard' />}
+        <Route exact path='/' component={Register} />
+      </Switch>
     </div>
   );
 }
